@@ -26,8 +26,6 @@ Inventory::Inventory()
     this->tail     = nullptr;
     this->slots    = 10;
     this->occupied = 0;
-
-    //std::cerr << Node().data << "\n";
 }
 
 //------------------------------------------------------------------------------
@@ -42,15 +40,44 @@ Inventory::Inventory(int n)
 //------------------------------------------------------------------------------
 Inventory::Inventory(const Inventory &src)
 {
-    // @todo implement this function
-	
+	head = nullptr;
+	tail = nullptr;
+	occupied = 0;
+
+	Node* srcIt = src.head;
+
+    	while (srcIt != nullptr) {
+       		this->addItems(srcIt->data);
+
+        	srcIt = srcIt->next;
+    	}	
 }
 
 //------------------------------------------------------------------------------
 Inventory::~Inventory()
 {
-    // @todo implement this function
-	delete Inventory();
+
+	Node *this_iterator = nullptr;
+	Node *to_delete = nullptr;
+
+	this_iterator = this->head;
+
+
+	while(this_iterator != nullptr){
+		to_delete = this_iterator;
+
+        	// move to next node
+        	this_iterator = this_iterator->next;
+
+        	// delete the current node
+        	delete to_delete;
+
+       	 	to_delete = nullptr;
+	}
+
+	head  = nullptr;
+    	tail  = nullptr;
+   	occupied = 0;	
 }	
 
 //------------------------------------------------------------------------------
@@ -61,9 +88,7 @@ bool Inventory::isFull() const
     // If this is more than one line
     // in the form "return (boolean expression);"
     // you are overthinking the problem
-
-    return true; // This line is a placeholder. Remove it.
-
+	return false;
 }
 
 //------------------------------------------------------------------------------
@@ -74,7 +99,7 @@ void Inventory::display(std::ostream &outs) const
     Node* it = head;
     while(it != nullptr){
         outs << "  " << it->data << "\n";
-
+	
         it = it->next;
     }
 }
@@ -101,8 +126,7 @@ void swap(Inventory& lhs, Inventory& rhs)
 Inventory::Node* Inventory::findMatchingItemStackNode(const ItemStack& itemStack)
 {
     // @todo implement this function
-
-    return nullptr;
+	return nullptr;
 }
 
 //------------------------------------------------------------------------------
@@ -115,5 +139,16 @@ void Inventory::mergeStacks(ItemStack& lhs, const ItemStack& rhs)
 void Inventory::addItemStackNoCheck(ItemStack itemStack)
 {
     // @todo implement this function
+	Node *new_node = nullptr;
+	
+	new_node = new Node(itemStack);
+
+    	// Setup the new node
+    	new_node->next = (this->head);
+    	this->head = new_node;
+
+	this->occupied++;
+
+	new_node = nullptr;
 
 }
