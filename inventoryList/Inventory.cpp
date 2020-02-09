@@ -35,6 +35,7 @@ Inventory::Inventory(int n)
     this->tail     = nullptr;
     this->slots    = n;
     this->occupied = 0;
+	//comment
 }
 
 //------------------------------------------------------------------------------
