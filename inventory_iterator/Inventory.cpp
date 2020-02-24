@@ -5,7 +5,7 @@
 
 // Allow the compiler to define the remaining
 // comparison operators
-using namespace std::rel_ops;
+using namespace std;
 
 //------------------------------------------------------------------------------
 Inventory::Inventory()
@@ -23,7 +23,11 @@ Inventory::Inventory(int n)
 
 //------------------------------------------------------------------------------
 Inventory::Inventory(const Inventory& src)
+    :Inventory()
 {
+    for(const ItemStack& src_data : src){
+        allItemStacks.push_back(src_data);
+    }
     // @todo - implement this function
 }
 
@@ -55,8 +59,13 @@ int Inventory::totalSlots() const
 //------------------------------------------------------------------------------
 bool Inventory::isFull() const
 {
+    if(slots == utilizedSlots()){
+        return true;
+    }
+    else{
+        return false;
+    }
     // @todo - implement this function
-    return false; // replace this line
 }
 
 //------------------------------------------------------------------------------
@@ -88,6 +97,10 @@ void Inventory::display(std::ostream &outs) const
 {
     outs << " -Used " << utilizedSlots() << " of " << slots << " slots" << "\n";
 
+    outs << "  (" << slots << ")";
+    
+    
+
     // @todo - implement the rest of function
     //
     // 2 spaces "  " before each ItemStack line
@@ -98,13 +111,16 @@ void Inventory::display(std::ostream &outs) const
 Inventory::iterator Inventory::findMatchingItemStackIterator(const ItemStack& itemStack)
 {
     // @todo - implement this function
-
+    if(itemStack.getItem() == slots){
+        return allItemStacks.begin();
+    }
     return allItemStacks.end();
 }
 
 //------------------------------------------------------------------------------
 void Inventory::addItemStackNoCheck(ItemStack itemStack)
 {
+    allItemStacks.push_back(itemStack);
     // @todo - implement this function. This should be one push_back-y line...
 }
 
