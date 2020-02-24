@@ -23,12 +23,17 @@ Inventory::Inventory(int n)
 
 //------------------------------------------------------------------------------
 Inventory::Inventory(const Inventory& src)
-    :Inventory()
+    :Inventory(src.totalSlots())
+
 {
-    for(const ItemStack& src_data : src){
-        allItemStacks.push_back(src_data);
+    using const_iterator = Inventory::const_iterator;
+
+    const_iterator srcBegin = src.begin();
+
+    while (srcBegin != src.end()) {
+        addItems(*srcBegin);
+        ++srcBegin;
     }
-    // @todo - implement this function
 }
 
 //------------------------------------------------------------------------------
@@ -59,13 +64,13 @@ int Inventory::totalSlots() const
 //------------------------------------------------------------------------------
 bool Inventory::isFull() const
 {
-    if(slots == utilizedSlots()){
+    if(totalSlots() == utilizedSlots()){
         return true;
     }
     else{
         return false;
     }
-    // @todo - implement this function
+    // TODO:  - implement this function
 }
 
 //------------------------------------------------------------------------------
@@ -97,31 +102,33 @@ void Inventory::display(std::ostream &outs) const
 {
     outs << " -Used " << utilizedSlots() << " of " << slots << " slots" << "\n";
 
-    outs << "  (" << slots << ")";
-    
-    
-
-    // @todo - implement the rest of function
-    //
-    // 2 spaces "  " before each ItemStack line
+    for (const ItemStack& itemStack : *this){
+        outs <<"  "<< itemStack << endl;
+    }
 }
 
 
 //------------------------------------------------------------------------------
 Inventory::iterator Inventory::findMatchingItemStackIterator(const ItemStack& itemStack)
 {
-    // @todo - implement this function
-    if(itemStack.getItem() == slots){
-        return allItemStacks.begin();
-    }
+    using iterator = Inventory::iterator;
+
+    iterator singleItemStack = allItemStacks.begin();
+
+    /* if(){
+        return 
+    }else{
+        return
+    } */
+
     return allItemStacks.end();
+    // TODO:  - implement this function
 }
 
 //------------------------------------------------------------------------------
 void Inventory::addItemStackNoCheck(ItemStack itemStack)
 {
     allItemStacks.push_back(itemStack);
-    // @todo - implement this function. This should be one push_back-y line...
 }
 
 //------------------------------------------------------------------------------
@@ -176,6 +183,6 @@ bool operator==(const Inventory& lhs, const Inventory& rhs)
 //------------------------------------------------------------------------------
 void Inventory::mergeStacks(ItemStack& lhs, const ItemStack& rhs)
 {
-    // @todo - implement this function. There is no trick here (beyond
+    // TODO:  - implement this function. There is no trick here (beyond
     // reviewing Assignment 1).
 }
