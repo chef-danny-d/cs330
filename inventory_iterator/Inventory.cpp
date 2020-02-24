@@ -70,7 +70,6 @@ bool Inventory::isFull() const
     else{
         return false;
     }
-    // TODO:  - implement this function
 }
 
 //------------------------------------------------------------------------------
@@ -120,6 +119,13 @@ Inventory::iterator Inventory::findMatchingItemStackIterator(const ItemStack& it
     }else{
         return
     } */
+
+    while (singleItemStack != allItemStacks.end()){
+        if (itemStack == *singleItemStack){
+            return singleItemStack;
+        }
+        ++singleItemStack;
+    }
 
     return allItemStacks.end();
     // TODO:  - implement this function
@@ -183,6 +189,5 @@ bool operator==(const Inventory& lhs, const Inventory& rhs)
 //------------------------------------------------------------------------------
 void Inventory::mergeStacks(ItemStack& lhs, const ItemStack& rhs)
 {
-    // TODO:  - implement this function. There is no trick here (beyond
-    // reviewing Assignment 1).
+    lhs.addItems(rhs.size());
 }
